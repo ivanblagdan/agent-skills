@@ -1,0 +1,76 @@
+id: swift.concurrency.task_create
+language: swift
+severity: info
+message: "Task creation boundary"
+rule:
+  pattern: "Task { $$$BODY }"
+---
+id: swift.concurrency.task_detached
+language: swift
+severity: info
+message: "Detached Task creation boundary"
+rule:
+  pattern: "Task.detached { $$$BODY }"
+---
+id: swift.concurrency.async_let
+language: swift
+severity: info
+message: "async let introduces concurrent work"
+rule:
+  pattern: "async let $NAME = $EXPR"
+---
+id: swift.concurrency.actor_decl
+language: swift
+severity: info
+message: "Actor declaration (isolation boundary)"
+rule:
+  pattern: "actor $NAME { $$$BODY }"
+---
+id: swift.concurrency.dispatch_async
+language: swift
+severity: info
+message: "DispatchQueue async boundary"
+rule:
+  pattern: "DispatchQueue.$Q.async { $$$BODY }"
+---
+id: swift.concurrency.dispatch_sync
+language: swift
+severity: info
+message: "DispatchQueue sync boundary"
+rule:
+  pattern: "DispatchQueue.$Q.sync { $$$BODY }"
+---
+id: swift.concurrency.operation_queue
+language: swift
+severity: info
+message: "OperationQueue addOperation boundary"
+rule:
+  pattern: "$Q.addOperation { $$$BODY }"
+---
+id: swift.concurrency.task_detached_any
+language: swift
+severity: info
+message: "Detached Task creation boundary"
+rule:
+  pattern: "Task.detached { $$$BODY }"
+---
+id: swift.concurrency.for_await_loop
+language: swift
+severity: info
+message: "for-await stream consumption boundary"
+rule:
+  pattern: "for await $ELEMENT in $STREAM { $$$BODY }"
+---
+id: swift.concurrency.await_member_call
+language: swift
+severity: info
+message: "awaited member call (actor/async hop candidate)"
+rule:
+  pattern: "await $RECEIVER.$METHOD($$$ARGS)"
+---
+id: swift.concurrency.mainactor_run
+language: swift
+severity: info
+message: "MainActor hop boundary"
+rule:
+  pattern: "await MainActor.run { $$$BODY }"

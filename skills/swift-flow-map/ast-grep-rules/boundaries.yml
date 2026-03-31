@@ -1,0 +1,103 @@
+id: swift.boundary.json_decoder_init
+language: swift
+severity: info
+message: "JSONDecoder construction (likely decode boundary nearby)"
+rule:
+  pattern: JSONDecoder()
+---
+id: swift.boundary.json_encoder_init
+language: swift
+severity: info
+message: "JSONEncoder construction (likely encode boundary nearby)"
+rule:
+  pattern: JSONEncoder()
+---
+id: swift.boundary.decode_call
+language: swift
+severity: info
+message: "decode(...) boundary (bytes -> model)"
+rule:
+  pattern: |
+    $DECODER.decode($T.self, from: $DATA)
+---
+id: swift.boundary.encode_call
+language: swift
+severity: info
+message: "encode(...) boundary (model -> bytes)"
+rule:
+  pattern: |
+    $ENCODER.encode($VALUE)
+---
+id: swift.io.urlsession_data_for
+language: swift
+severity: info
+message: "URLSession data(for:) I/O boundary"
+rule:
+  pattern: |
+    $SESSION.data(for: $REQ)
+---
+id: swift.io.urlsession_datatask
+language: swift
+severity: info
+message: "URLSession dataTask(...) I/O boundary"
+rule:
+  pattern: |
+    $SESSION.dataTask(with: $REQ) { $$$ }
+---
+id: swift.io.filemanager
+language: swift
+severity: info
+message: "FileManager I/O usage"
+rule:
+  pattern: FileManager.$X
+---
+id: swift.io.userdefaults
+language: swift
+severity: info
+message: "UserDefaults persistence boundary"
+rule:
+  pattern: UserDefaults.$X
+---
+id: swift.boundary.asyncstream_init
+language: swift
+severity: info
+message: "AsyncStream production boundary"
+rule:
+  pattern: "AsyncStream { $$$BODY }"
+---
+id: swift.boundary.asyncthrowingstream_init
+language: swift
+severity: info
+message: "AsyncThrowingStream production boundary"
+rule:
+  pattern: "AsyncThrowingStream { $$$BODY }"
+---
+id: swift.boundary.continuation_yield
+language: swift
+severity: info
+message: "Continuation yield boundary"
+rule:
+  pattern: "$CONT.yield($VALUE)"
+---
+id: swift.boundary.continuation_finish
+language: swift
+severity: info
+message: "Continuation finish boundary"
+rule:
+  pattern: "$CONT.finish()"
+---
+id: swift.boundary.continuation_termination
+language: swift
+severity: info
+message: "Continuation termination hook boundary"
+rule:
+  pattern: "$CONT.onTermination = { $$$BODY }"
+---
+id: swift.boundary.checked_continuation
+language: swift
+severity: info
+message: "Checked continuation bridge boundary"
+rule:
+  any:
+    - pattern: "withCheckedContinuation { $$$BODY }"
+    - pattern: "withCheckedThrowingContinuation { $$$BODY }"

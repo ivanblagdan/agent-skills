@@ -1,0 +1,77 @@
+id: swift.hot.await_in_for_loop
+language: swift
+severity: warning
+message: "await inside a for-loop (hot-path suspect: sequential async work)"
+rule:
+  all:
+    - pattern: |
+        for $PAT in $SEQ {
+          $$$BODY
+        }
+    - has:
+        stopBy: end
+        pattern: await $EXPR
+---
+id: swift.hot.decode_in_for_loop
+language: swift
+severity: warning
+message: "decode(...) inside a for-loop (hot-path suspect: repeated decoding)"
+rule:
+  all:
+    - pattern: |
+        for $PAT in $SEQ {
+          $$$BODY
+        }
+    - has:
+        stopBy: end
+        pattern: |
+          $DECODER.decode($T.self, from: $DATA)
+---
+id: swift.hot.json_parse_like
+language: swift
+severity: warning
+message: "JSON encode/decode call (hot-path suspect if on request path or in loops)"
+rule:
+  any:
+    - pattern: |
+        $DECODER.decode($T.self, from: $DATA)
+    - pattern: |
+        $ENCODER.encode($VALUE)
+---
+id: swift.hot.nested_for_loop
+language: swift
+severity: warning
+message: "Nested for-loops (hot-path suspect: multiplicative work)"
+rule:
+  all:
+    - pattern: "for $OUTER in $SEQ1 { $$$BODY }"
+    - has:
+        stopBy: end
+        pattern: "for $INNER in $SEQ2 { $$$INNER_BODY }"
+---
+id: swift.hot.collection_scan_in_loop
+language: swift
+severity: warning
+message: "Collection scan inside loop (hot-path suspect: repeated linear scan)"
+rule:
+  all:
+    - pattern: "for $ITEM in $SEQ { $$$BODY }"
+    - has:
+        stopBy: end
+        any:
+          - pattern: "$COL.first(where: $PRED)"
+          - pattern: "$COL.firstIndex(where: $PRED)"
+          - pattern: "$COL.contains(where: $PRED)"
+---
+id: swift.hot.sorted_in_loop
+language: swift
+severity: warning
+message: "sorted(...) inside loop (hot-path suspect: repeated sort)"
+rule:
+  all:
+    - pattern: "for $ITEM in $SEQ { $$$BODY }"
+    - has:
+        stopBy: end
+        any:
+          - pattern: "$COL.sorted()"
+          - pattern: "$COL.sorted(by: $CMP)"

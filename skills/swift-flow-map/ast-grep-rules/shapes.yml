@@ -1,0 +1,71 @@
+id: swift.shape.struct_codable
+language: swift
+severity: info
+message: "Codable struct (boundary/DTO candidate)"
+rule:
+  pattern: "struct $NAME: Codable { $$$BODY }"
+---
+id: swift.shape.class_codable
+language: swift
+severity: info
+message: "Codable class (boundary/DTO candidate)"
+rule:
+  pattern: "class $NAME: Codable { $$$BODY }"
+---
+id: swift.shape.struct_decodable
+language: swift
+severity: info
+message: "Decodable struct (boundary candidate)"
+rule:
+  pattern: "struct $NAME: Decodable { $$$BODY }"
+---
+id: swift.shape.struct_encodable
+language: swift
+severity: info
+message: "Encodable struct (boundary candidate)"
+rule:
+  pattern: "struct $NAME: Encodable { $$$BODY }"
+---
+id: swift.shape.enum_codable
+language: swift
+severity: info
+message: "Codable enum (boundary candidate)"
+rule:
+  pattern: "enum $NAME: Codable { $$$BODY }"
+---
+id: swift.shape.struct_plain
+language: swift
+severity: info
+message: "Struct shape candidate"
+rule:
+  pattern: "struct $NAME { $$$BODY }"
+---
+id: swift.shape.class_plain
+language: swift
+severity: info
+message: "Class shape candidate"
+rule:
+  pattern: "class $NAME { $$$BODY }"
+---
+id: swift.shape.enum_plain
+language: swift
+severity: info
+message: "Enum shape candidate"
+rule:
+  pattern: "enum $NAME { $$$BODY }"
+---
+id: swift.shape.typealias
+language: swift
+severity: info
+message: "Typealias shape boundary candidate"
+rule:
+  pattern: "typealias $NAME = $TYPE"
+---
+id: swift.shape.mapper_function
+language: swift
+severity: info
+message: "Shape transform function candidate"
+rule:
+  any:
+    - pattern: "func $NAME(_ $INPUT: $IN) -> $OUT { $$$BODY }"
+    - pattern: "func $NAME(from $INPUT: $IN) -> $OUT { $$$BODY }"

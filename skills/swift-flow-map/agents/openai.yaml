@@ -1,0 +1,5 @@
+interface:
+  display_name: "Swift Flow Map (Mermaid)"
+  short_description: "Read-only: dataflow + shapes + concurrency + hot-path suspects"
+policy:
+  allow_implicit_invocation: true
