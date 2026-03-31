@@ -1,0 +1,4 @@
+interface:
+  display_name: "LLDB Debugging Bridge"
+  short_description: "Run LLDB commands from active Xcode sessions"
+  default_prompt: "Use $lldb-debugging to inspect an active Xcode LLDB session and return stack, frame variables, expressions, and memory reads as structured output."
